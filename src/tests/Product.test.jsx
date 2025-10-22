@@ -223,4 +223,10 @@ describe('type: cart', () => {
 
     expect(submit).toHaveTextContent('Update Cart')
   })
+  it('pre set count', async () => {
+    render(<Product productId={productId} type='cart' starterCount={10} />)
+    const input = await screen.findByTestId('input')
+
+    expect(input).toHaveValue(10)
+  })
 })

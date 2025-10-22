@@ -1,9 +1,11 @@
 import './App.css'
-
+import Product from './components/Product'
 function App () {
   return (
     <>
-      <h1>Vite + React</h1>
+      <div style={{ maxWidth: 800 }}>
+        <Product productId={1} />
+      </div>
     </>
   )
 }

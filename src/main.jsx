@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 
 async function enableMocking () {
-  if (!import.meta.env.dev) {
+  if (!import.meta.env.DEV) {
     return
   }
 
@@ -12,10 +12,10 @@ async function enableMocking () {
   return worker.start()
 }
 
-enableMocking().then(
+enableMocking().then(() => {
   createRoot(document.getElementById('root')).render(
     <StrictMode>
       <App />
     </StrictMode>
   )
-)
+})

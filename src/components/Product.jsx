@@ -96,8 +96,11 @@ function Product ({ productId = 0, submitCallback = () => {}, type = 'shop', sta
             />
             <button data-testid='decrease' className='helper' onClick={handleDecrease}>-</button>
           </div>
-          <button type='submit' data-testid='submit' name='add'>{type === 'cart' ? 'Update Cart' : 'Add to Cart'}</button>
-          {type === 'cart' && <button type='submit' data-testid='remove' name='remove'>Remove</button>}
+
+          <div className='buttons'>
+            <button type='submit' data-testid='submit' name='add'>{type === 'cart' ? 'Update Cart' : 'Add to Cart'}</button>
+            {type === 'cart' && <button type='submit' data-testid='remove' name='remove'>Remove</button>}
+          </div>
         </form>
       </div>
     </Wrapper>
@@ -154,6 +157,10 @@ border-radius: 1em;
   }
   button[type='submit']{
     background-color:blue;
+  }
+  .buttons{
+    display:flex;
+    flex-direction: row-reverse
   }
 `
 

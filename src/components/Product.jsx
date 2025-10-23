@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import Loading from './Loading'
 
 // ! the code is flawed: it requires setTimeout to prevent previous controller from affecting the next, consider asking
 // ! on discord or use a library
@@ -33,7 +34,7 @@ function Product ({ productId = 0, submitCallback = () => {}, type = 'shop', sta
   const { loading, error, data } = useProduct(productId)
   const [count, setCount] = useState(starterCount)
 
-  if (loading) return <p data-testid='loading'>Loading...</p>
+  if (loading) return <div data-testid='loading'><Loading /></div>
   if (error) return <p data-testid='error'>Error...{error.message}</p>
 
   function handleChange (e) {

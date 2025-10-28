@@ -1,5 +1,5 @@
 # Time Spent
-`15~ Hours across 15 Days`
+`16~ Hours across 15 Days`
 
 did things differently this time, gave each day one hour to make space for my other daily stuff like university
 

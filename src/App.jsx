@@ -1,7 +1,6 @@
 import './App.css'
 import styled from 'styled-components'
 import { Link, Outlet } from 'react-router'
-import Product from './components/product'
 import { useState } from 'react'
 
 function App () {

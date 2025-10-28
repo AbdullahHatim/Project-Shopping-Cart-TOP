@@ -1,3 +1,11 @@
+# Time Spent
+`15~ Hours across 15 Days`
+
+did things differently this time, gave each day one hour to make space for my other daily stuff like university
+
+Kind of a fun project, I just wish i've been told what is the best approach for specific things like the routing and data fetching.
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

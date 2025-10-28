@@ -152,10 +152,12 @@ border-radius: 1em;
   button[type='submit']{
     /* background-color: ; */
     padding: 0.2em;
+    width: 100px;
   }
   .buttons{
     display:flex;
-    flex-direction: row-reverse
+    flex-direction: row-reverse;
+    gap: 0.5em;
   }
 `
 

@@ -38,13 +38,22 @@ function useAllProducts () {
 }
 
 function ShopPage () {
-  const { cart, setCart } = useOutletContext()
+  const [_, setProducts] = useOutletContext()
   const { loading, error, data: products } = useAllProducts()
 
-  function handleProductSubmit (productId, count) {
-    // This logic will depend on how your cart is structured.
-    // For now, let's just log it.
-    console.log(`Product ID: ${productId}, Count: ${count}`)
+  function handleProductSubmit (id, count) {
+    setProducts((prev) => {
+      // if the same prdouct id exists add the count, otherwise add the product
+      const existingProductIndex = prev.findIndex(product => product.id === id)
+      if (existingProductIndex !== -1) {
+        const updatedProducts = [...prev]
+        updatedProducts[existingProductIndex].count += count
+        return updatedProducts
+      } else {
+        const newProduct = products.find(product => product.id === id)
+        return [...prev, { ...newProduct, count }]
+      }
+    })
   }
 
   if (loading) return <Loading />

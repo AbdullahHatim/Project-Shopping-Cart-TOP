@@ -5,9 +5,11 @@ import Product from './components/product'
 import { useState } from 'react'
 
 function App () {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([])
 
+  const count = products.reduce((acc, curr) => acc + curr.count, 0)
   const cartCount = count > 0 ? count > 99 ? '🤑' : count : '0'
+
   return (
     <Wrapper $count={count} data-test='hello'>
       <nav>
@@ -18,7 +20,7 @@ function App () {
         </div>
       </nav>
       <main>
-        <Outlet context={[count, setCount]} />
+        <Outlet context={[products, setProducts]} />
       </main>
     </Wrapper>
   )

@@ -1,41 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import Loading from './Loading'
 
-// ! the code is flawed: it requires setTimeout to prevent previous controller from affecting the next, consider asking
-// ! on discord or use a library
-function useProduct (id) {
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [data, setData] = useState(null)
-
-  useEffect(() => {
-    const controller = new AbortController()
-    fetch(`https://fakestoreapi.com/products/${id}`, { mode: 'cors', signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('server error')
-        }
-        return response.json()
-      })
-      .then((response) => { setData(response); setError(null) })
-      .catch((error) => { setError(error) })
-      .finally(() => setLoading(false))
-
-    return () => {
-      controller.abort()
-    }
-  }, [id])
-
-  return { loading, error, data }
-}
-
-function Product ({ productId = 0, submitCallback = () => {}, type = 'shop', starterCount = 1 }) {
-  const { loading, error, data } = useProduct(productId)
+function Product ({ data, submitCallback = () => {}, type = 'shop', starterCount = 1 }) {
   const [count, setCount] = useState(starterCount)
 
-  if (loading) return <div data-testid='loading'><Loading /></div>
-  if (error) return <p data-testid='error'>Error...{error.message}</p>
+  if (!data) {
+    // This case will be handled by the parent component's loading state,
+    // but as a fallback, we can render a loading indicator or null.
+    return <div data-testid='loading'><Loading /></div>
+  }
 
   function handleChange (e) {
     setCount(e.target.value)
@@ -52,12 +26,12 @@ function Product ({ productId = 0, submitCallback = () => {}, type = 'shop', sta
     const submitter = e.nativeEvent.submitter.name
     if (submitter === 'add') {
       const count = e.target.elements.count.value * 1
-      submitCallback(productId, count)
+      submitCallback(data.id, count)
       return
     }
 
     if (submitter === 'remove') {
-      submitCallback(productId, 0)
+      submitCallback(data.id, 0)
     }
   }
 
@@ -76,8 +50,8 @@ function Product ({ productId = 0, submitCallback = () => {}, type = 'shop', sta
       <div className='box-1'>
         <img src={image} alt='product image' />
         <div className='text'>
-          <h3 data-testid='title'>{title}</h3>
-          <p data-testid='description'>{description}</p>
+          <h3 data-testid='title' className='title'>{title}</h3>
+          <p data-testid='description' className='desc'>{description}</p>
         </div>
       </div>
       <div className='box-2'>
@@ -85,7 +59,7 @@ function Product ({ productId = 0, submitCallback = () => {}, type = 'shop', sta
           <p data-testid='price'>${(price * count).toFixed(2)}</p>
           <div className='inputs'>
 
-            <button data-testid='increase' className='helper' onClick={handleIncrease}>+</button>
+            <button data-testid='decrease' className='helper' onClick={handleDecrease}>-</button>
             <input
               data-testid='input'
               type='number'
@@ -95,7 +69,7 @@ function Product ({ productId = 0, submitCallback = () => {}, type = 'shop', sta
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <button data-testid='decrease' className='helper' onClick={handleDecrease}>-</button>
+            <button data-testid='increase' className='helper' onClick={handleIncrease}>+</button>
           </div>
 
           <div className='buttons'>
@@ -109,7 +83,10 @@ function Product ({ productId = 0, submitCallback = () => {}, type = 'shop', sta
 }
 
 const Wrapper = styled.div`
-background-color: red;
+background-color: white;
+border: 2px solid var(--bg-2, grey);
+box-shadow: 4px 4px 10px 1px var(--bg-2);
+box-sizing: border-box;
 border-radius: 1em;
   display: flex;
   height: 200px;
@@ -122,8 +99,9 @@ border-radius: 1em;
 /* Box 1 */
   .box-1 img{
     height: 90%;
-
-    object-fit: cover;
+    margin-right: 1em;
+    aspect-ratio: 1/1;
+    object-fit: contain;
     align-self: center;
   }
 
@@ -131,6 +109,14 @@ border-radius: 1em;
     padding-top: 1em;
   }
 
+  .box-1 .desc{
+    overflow-y: auto;
+    height: 60%;
+  }
+  .box-1 .title{
+    overflow-y: hidden;
+    height: 20%;
+  }
   /* Box-2 */
   --height-1: 2em;
   .box-2{
@@ -150,14 +136,22 @@ border-radius: 1em;
   }
   input{
       height: var(--height-1);
-    }
+      background-color: transparent;
+      color: black;
+      border: 2px solid var(--bg-2);
+   }
+   button:hover{
+    cursor: pointer;
+   }
   button.helper{
     height: var(--height-1);
     width: var(--height-1);
-    border-radius: calc(var(--height-1) / 2)
+    border-radius: calc(var(--height-1) / 2);
+    border: none;
   }
   button[type='submit']{
-    background-color:blue;
+    /* background-color: ; */
+    padding: 0.2em;
   }
   .buttons{
     display:flex;

@@ -7,6 +7,10 @@ export const handlers = [
     const { productId } = params
 
     console.log(`[MSW] Intercepted request for product ID: ${productId}`)
-    return HttpResponse.json(mockProducts[0])
+    return HttpResponse.json(mockProducts[productId])
+  }),
+  http.get('https://fakestoreapi.com/products', () => {
+    console.log('[MSW] Intercepted request for all products')
+    return HttpResponse.json(mockProducts)
   })
 ]

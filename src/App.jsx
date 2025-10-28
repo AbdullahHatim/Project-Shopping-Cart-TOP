@@ -5,7 +5,7 @@ import Product from './components/product'
 import { useState } from 'react'
 
 function App () {
-  const [count, setCount] = useState(2)
+  const [count, setCount] = useState(0)
 
   const cartCount = count > 0 ? count > 99 ? '🤑' : count : '0'
   return (
@@ -24,9 +24,13 @@ function App () {
   )
 }
 
+// ! Fix the dumbass scroll bar shifting the layout without black bars
+// ! My idea is to limit the entire app to 100svh, then have a scroll bar within <main>
+// ! I won't implement this now because i've wasted enough time
 const Wrapper = styled.div`
 background-color: var(--bg-1);
-height: 100%;
+height: 100svh;
+overflow-y: auto;
 nav{
   display: flex;
   justify-content: center;

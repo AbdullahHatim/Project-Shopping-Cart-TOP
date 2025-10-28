@@ -1,7 +1,12 @@
 Live: [Project-Shopping-Cart-TOP](https://dapper-liger-0ccd50.netlify.app/)
 
 # Time Spent
-`16~ Hours across 15 Days`
+
+Start: Oct 15, 2025
+
+End: Oct 28, 2025
+
+`16~ Hours across 14 Days`
 
 did things differently this time, gave each day one hour to make space for my other daily stuff like university
 
